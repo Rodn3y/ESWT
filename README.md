@@ -2,5 +2,4 @@
 Einführung Softwaretechnik
 
 Erstes Readme
-
-liebe grüße von may
+Leo
