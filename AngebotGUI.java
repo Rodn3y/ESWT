@@ -32,18 +32,18 @@ public class AngebotGUI extends JFrame {
     private JLabel labelAngebot;
 
     String materialBenennung;
-    String materialKosten;
+    double materialKosten;
 
     String arbeitsBezeichnung;
-    String arbeitsKosten;
+    double arbeitsKosten;
 
 
     // Listen für die Werte der Tabelle
     public List<String> listMaterialName = new ArrayList<>();
-    public List<String> listMaterialKosten = new ArrayList<>();
+    public List<Double> listMaterialKosten = new ArrayList<>();
 
-    public List<String> listArbeitsKosten = new ArrayList<>();
     public List<String> listArbeitsBezeichnung = new ArrayList<>();
+    public List<Double> listArbeitsKosten = new ArrayList<>();
 
 
     // Konstuktor
@@ -51,15 +51,6 @@ public class AngebotGUI extends JFrame {
 
         $$$setupUI$$$();
         add(rootPanel);
-
-
-        modelMaterial = new DefaultTableModel();
-        modelMaterial.addColumn("Materialbezeichnung");
-        modelMaterial.addColumn("Materialpreis");
-
-        modelArbeit = new DefaultTableModel();
-        modelArbeit.addColumn("Arbeit");
-        modelArbeit.addColumn("Preis");
 
 
         tfMaterialBennenung = new JTextField("Material Bezeichnung");
@@ -76,7 +67,7 @@ public class AngebotGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 materialBenennung = tfMaterialBenennung.getText();
-                materialKosten = tfMaterialKosten.getText();
+                materialKosten = Double.parseDouble(tfMaterialKosten.getText());
                 listMaterialName.add(materialBenennung);
                 listMaterialKosten.add(materialKosten);
                 modelMaterial.addRow(new Object[]{materialBenennung, materialKosten});
@@ -91,6 +82,7 @@ public class AngebotGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 listMaterialName.remove(listMaterialName.size() - 1);
                 listMaterialKosten.remove(listMaterialKosten.size() - 1);
+                modelMaterial.removeRow(tableMaterial.getRowCount() - 1);
             }
         });
 
@@ -99,10 +91,10 @@ public class AngebotGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 arbeitsBezeichnung = tfArbeitsBezeichnung.getText();
-                arbeitsKosten = tfArbeitsKosten.getText();
-
+                arbeitsKosten = Double.parseDouble(tfArbeitsKosten.getText());
                 listArbeitsKosten.add(arbeitsKosten);
                 listArbeitsBezeichnung.add(arbeitsBezeichnung);
+                modelArbeit.addRow(new Object[]{arbeitsBezeichnung, arbeitsKosten});
             }
         });
         arbeitskostenEntfernenButton.addActionListener(new ActionListener() {
@@ -110,6 +102,7 @@ public class AngebotGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 listArbeitsBezeichnung.remove(listArbeitsBezeichnung.size() - 1);
                 listArbeitsKosten.remove(listArbeitsKosten.size() - 1);
+                modelArbeit.removeRow(tableArbeit.getRowCount() - 1);
             }
         });
     }
@@ -175,8 +168,15 @@ public class AngebotGUI extends JFrame {
     }
 
     private void createUIComponents() {
-        tableArbeit = new JTable(modelArbeit);
+        modelMaterial = new DefaultTableModel();
+        modelMaterial.addColumn("Materialbezeichnung");
+        modelMaterial.addColumn("Materialpreis");
         tableMaterial = new JTable(modelMaterial);
+
+        tableArbeit = new JTable(modelArbeit);
+        modelArbeit = new DefaultTableModel();
+        modelArbeit.addColumn("Arbeit");
+        modelArbeit.addColumn("Preis");
         // TODO: place custom component creation code here
     }
 }
