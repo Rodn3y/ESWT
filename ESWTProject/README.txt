@@ -1,0 +1,2 @@
+Durch das klicken auf die jeweiligen Buttons werden die Werte die eingegeben wurden in die Listen gespeichert.
+Es müssen noch die Methoden implementiert werden die diese Werte in ein JTable eintragen um die Tabellen dann in TXT Dateien exportieren zu können. So hätte ich das gemacht.
