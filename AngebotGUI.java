@@ -1,6 +1,10 @@
 package com.EasyOffer;
 
+import com.intellij.uiDesigner.core.GridConstraints;
+import com.intellij.uiDesigner.core.GridLayoutManager;
+
 import javax.swing.*;
+import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -13,6 +17,8 @@ public class AngebotGUI extends JFrame {
     private JButton arbeitskostenHinzufügenButton;
     private JTable tableArbeit;
     private JTable tableMaterial;
+    private DefaultTableModel modelArbeit;
+    private DefaultTableModel modelMaterial;
     private JPanel rootPanel;
     private JTextField tfMaterialBennenung;
     private JTextField tfMaterialKosten;
@@ -26,45 +32,34 @@ public class AngebotGUI extends JFrame {
     private JLabel labelAngebot;
 
     String materialBenennung;
-    double materialKosten;
+    String materialKosten;
 
     String arbeitsBezeichnung;
-    double arbeitsKosten;
+    String arbeitsKosten;
 
 
     // Listen für die Werte der Tabelle
     public List<String> listMaterialName = new ArrayList<>();
-    public List<Double> listMaterialKosten = new ArrayList<>();
+    public List<String> listMaterialKosten = new ArrayList<>();
 
-    public List<Double> listArbeitsKosten = new ArrayList<>();
+    public List<String> listArbeitsKosten = new ArrayList<>();
     public List<String> listArbeitsBezeichnung = new ArrayList<>();
 
 
-    // Konstruktor
-    public AngebotGUI(){
+    // Konstuktor
+    public AngebotGUI() {
 
-    	
+        $$$setupUI$$$();
         add(rootPanel);
 
-        //Materialtabellen Spalten
-        String[] columnMaterial = {"Materialbennenung", "Preis"};
 
-        //Materialtabellen Inhalt
-        Object [][] material = {
-                {materialBenennung, materialKosten}
-        };
+        modelMaterial = new DefaultTableModel();
+        modelMaterial.addColumn("Materialbezeichnung");
+        modelMaterial.addColumn("Materialpreis");
 
-        //Arbeitskostentabellen Spalten
-        String[] columnArbeit = {"Arbeitsbezeichnung", "Preis"};
-
-        // Arbeitskostentabellen Inhalt
-        Object [][] arbeit = {
-                {materialBenennung, materialKosten}
-        };
-
-        tableArbeit = new JTable(arbeit, columnArbeit);
-        tableMaterial = new JTable(material, columnMaterial);
-
+        modelArbeit = new DefaultTableModel();
+        modelArbeit.addColumn("Arbeit");
+        modelArbeit.addColumn("Preis");
 
 
         tfMaterialBennenung = new JTextField("Material Bezeichnung");
@@ -74,20 +69,19 @@ public class AngebotGUI extends JFrame {
         tfArbeitsKosten = new JTextField("Arbeitskosten", 15);
 
         setTitle("EasyOffer");
-        setSize(400,500);
+        setSize(400, 500);
 
 
         materialHinzufügenButton1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 materialBenennung = tfMaterialBenennung.getText();
-                try {
-                    materialKosten = Double.parseDouble(tfMaterialKosten.getText());
-                } catch (NumberFormatException ae){}
+                materialKosten = tfMaterialKosten.getText();
                 listMaterialName.add(materialBenennung);
                 listMaterialKosten.add(materialKosten);
-                //materialBenennung, materialKosten -> tabelle
-
+                modelMaterial.addRow(new Object[]{materialBenennung, materialKosten});
+                tfMaterialBennenung.setText("");
+                tfMaterialKosten.setText("");
             }
         });
 
@@ -95,8 +89,8 @@ public class AngebotGUI extends JFrame {
         materialEntfernenButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                listMaterialName.remove(listMaterialName.size() -1);
-                listMaterialKosten.remove(listMaterialKosten.size() -1);
+                listMaterialName.remove(listMaterialName.size() - 1);
+                listMaterialKosten.remove(listMaterialKosten.size() - 1);
             }
         });
 
@@ -104,20 +98,85 @@ public class AngebotGUI extends JFrame {
         arbeitskostenHinzufügenButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            arbeitsBezeichnung = tfArbeitsBezeichnung.getText();
-            try {
-                arbeitsKosten = Double.parseDouble(tfArbeitsKosten.getText());
-            } catch(NumberFormatException aa){}
-            listArbeitsKosten.add(arbeitsKosten);
-            listArbeitsBezeichnung.add(arbeitsBezeichnung);
-          }
+                arbeitsBezeichnung = tfArbeitsBezeichnung.getText();
+                arbeitsKosten = tfArbeitsKosten.getText();
+
+                listArbeitsKosten.add(arbeitsKosten);
+                listArbeitsBezeichnung.add(arbeitsBezeichnung);
+            }
         });
         arbeitskostenEntfernenButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                listArbeitsBezeichnung.remove(listArbeitsBezeichnung.size() -1);
-                listArbeitsKosten.remove(listArbeitsKosten.size() -1);
+                listArbeitsBezeichnung.remove(listArbeitsBezeichnung.size() - 1);
+                listArbeitsKosten.remove(listArbeitsKosten.size() - 1);
             }
         });
+    }
+
+
+    /**
+     * Method generated by IntelliJ IDEA GUI Designer
+     * >>> IMPORTANT!! <<<
+     * DO NOT edit this method OR call it in your code!
+     *
+     * @noinspection ALL
+     */
+    private void $$$setupUI$$$() {
+        createUIComponents();
+        rootPanel = new JPanel();
+        rootPanel.setLayout(new GridLayoutManager(9, 3, new Insets(0, 0, 0, 0), -1, -1));
+        labelAngebot = new JLabel();
+        labelAngebot.setText("Angebot erstellen");
+        rootPanel.add(labelAngebot, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        tfMaterialBenennung = new JTextField();
+        tfMaterialBenennung.setText("");
+        rootPanel.add(tfMaterialBenennung, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        tfMaterialKosten = new JTextField();
+        rootPanel.add(tfMaterialKosten, new GridConstraints(6, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        tfArbeitsBezeichnung = new JTextField();
+        rootPanel.add(tfArbeitsBezeichnung, new GridConstraints(7, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        tfArbeitsKosten = new JTextField();
+        rootPanel.add(tfArbeitsKosten, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        labelMaterialName = new JLabel();
+        labelMaterialName.setText("Materialbennenung");
+        rootPanel.add(labelMaterialName, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        labelArbeitskosten = new JLabel();
+        labelArbeitskosten.setText("Arbeitskosten");
+        rootPanel.add(labelArbeitskosten, new GridConstraints(7, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        labelArbeitsbezeichnung = new JLabel();
+        labelArbeitsbezeichnung.setText("Arbeitsbezeichnung");
+        rootPanel.add(labelArbeitsbezeichnung, new GridConstraints(6, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        labelMaterialKosten = new JLabel();
+        labelMaterialKosten.setText("Materialkosten");
+        rootPanel.add(labelMaterialKosten, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        materialHinzufügenButton1 = new JButton();
+        materialHinzufügenButton1.setText("Material hinzufügen");
+        rootPanel.add(materialHinzufügenButton1, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        arbeitskostenHinzufügenButton = new JButton();
+        arbeitskostenHinzufügenButton.setText("Arbeitskosten hinzufügen");
+        rootPanel.add(arbeitskostenHinzufügenButton, new GridConstraints(5, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        materialEntfernenButton = new JButton();
+        materialEntfernenButton.setText("Material entfernen");
+        rootPanel.add(materialEntfernenButton, new GridConstraints(4, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        arbeitskostenEntfernenButton = new JButton();
+        arbeitskostenEntfernenButton.setText("Arbeitskosten entfernen");
+        rootPanel.add(arbeitskostenEntfernenButton, new GridConstraints(8, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        rootPanel.add(tableMaterial, new GridConstraints(1, 2, 4, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
+        rootPanel.add(tableArbeit, new GridConstraints(5, 2, 4, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
+        labelAngebot.setLabelFor(tfMaterialBenennung);
+    }
+
+    /**
+     * @noinspection ALL
+     */
+    public JComponent $$$getRootComponent$$$() {
+        return rootPanel;
+    }
+
+    private void createUIComponents() {
+        tableArbeit = new JTable(modelArbeit);
+        tableMaterial = new JTable(modelMaterial);
+        // TODO: place custom component creation code here
     }
 }
