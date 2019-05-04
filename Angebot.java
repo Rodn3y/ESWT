@@ -11,6 +11,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -199,12 +202,54 @@ public class Angebot extends JFrame {
 				
 			}
 		});
-		contentPane.add(btGesamt, "cell 2 6");
+		contentPane.add(btGesamt, "cell 2 6,growx");
 		contentPane.add(btArbeitEntfernen, "cell 3 6,alignx center,aligny center");
 		
 		tfSum = new JTextField();
 		contentPane.add(tfSum, "cell 2 7,growx");
 		tfSum.setColumns(10);
+		
+		JButton btAngebotErstellen = new JButton("Angebot erstellen");
+		btAngebotErstellen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					File file = new File("C:\\Users\\Leo\\Documents\\Angebot.txt");
+					if(!file.exists()) {
+						file.createNewFile();
+					}
+					
+					FileWriter fw = new FileWriter(file.getAbsoluteFile());
+					BufferedWriter bw = new BufferedWriter(fw);
+					
+					bw.write("MaterialKosten" + "\n\n");
+					bw.write("Materialbezeichnung:\t\tPreis:\n");
+					
+					for(int i = 0; i < tMaterial.getRowCount(); i++) {
+						for(int j = 0; j < tMaterial.getColumnCount();j++) {
+							bw.write((String)tMaterial.getModel().getValueAt(i, j)+ "\t\t\t\t");
+						}	
+						bw.write("\n");
+					}
+					bw.write("\n\n\n");
+					bw.write("Arbeitskosten" + "\n\n");
+					bw.write("Arbeit:\t\t\t\tPreis:\n");
+					
+					for(int i = 0; i < tArbeit.getRowCount(); i++) {
+						for(int j = 0; j < tArbeit.getColumnCount(); j++) {
+							bw.write((String)tArbeit.getModel().getValueAt(i, j)+ "\t\t\t\t");
+						}
+						bw.write("\n");
+					}
+					
+					bw.write("\n\nGesamtkosten: \t\t\t" + tfSum.getText() + " EUR");
+					bw.close();
+					fw.close();
+				} catch(Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+		});
+		contentPane.add(btAngebotErstellen, "cell 2 8");
 	}
 	
 	public double getSumMaterial() {
