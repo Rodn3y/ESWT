@@ -8,11 +8,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-//GUI für Username- und Passwortabfrage
+//GUI fÃ¼r Username- und Passwortabfrage
 public class GuiLogin extends JFrame {
 	
 
-	//Hinterlegtes Passwort/Username für Loginabfrage
+	//Hinterlegtes Passwort/Username fÃ¼r Loginabfrage
 	public String UserPassword = ("Test"); // momentan Platzhalter...soll auf Passwort Datenbank zugreifen?!
 	public String UserUsername = ("Test"); // momentan Platzhalter...soll auf Username Datenbank zugreifen?!
 
@@ -24,7 +24,7 @@ public class GuiLogin extends JFrame {
 	private JLabel usernameLabel;
 	private JLabel passwordLabel;
 
-	//Knöpfe für Login und Exit
+	//KnÃ¶pfe fÃ¼r Login und Exit
 	private JButton loginButton;
 	private JButton exitButton;
 	
@@ -42,7 +42,7 @@ public class GuiLogin extends JFrame {
 		//Inizialisierung aller Komponenten
 		this.initComponents();
 		
-		//hinzufügen der Komponenten
+		//hinzufÃ¼gen der Komponenten
 		add(username);
 		add(usernameLabel);
 
@@ -60,7 +60,7 @@ public class GuiLogin extends JFrame {
     //Methode um Komponenten zu inizialisieren 
 	private void initComponents() {
 		
-		//Textfeld für die Username-eingabe
+		//Textfeld fÃ¼r die Username-eingabe
 		username = new JTextField();
 		username.setLocation(200, 100);
 		username.setSize(200, 30);
@@ -71,7 +71,7 @@ public class GuiLogin extends JFrame {
 		usernameLabel.setSize(100, 30);
 		
 		
-        //Passwortfeld für die Passwort-eingabe
+        //Passwortfeld fÃ¼r die Passwort-eingabe
 		password = new JPasswordField();
 		password.setLocation(200, 200);
 		password.setSize(200, 30);
@@ -93,9 +93,11 @@ public class GuiLogin extends JFrame {
 				if (password.getText().contains(UserPassword) && username.getText().contains(UserUsername)) {
 					password.setText(null);
 					username.setText(null);
-					JFrame Frame = new JFrame();
+			        JFrame Frame = new JFrame();
 					JOptionPane.showMessageDialog(Frame, "Anmeldung erfolgreich.", "Login",
 							JOptionPane.INFORMATION_MESSAGE);
+					Angebot angebot = new Angebot();
+					angebot.setVisible(true);
 				} else {
 					JFrame Frame = new JFrame();
 					JOptionPane.showMessageDialog(Frame, "Benztzername und/oder Password sind fehlerhaft.",
@@ -106,7 +108,7 @@ public class GuiLogin extends JFrame {
 			}
 		});
 		
-        //Button um Fenster zu schließen
+        //Button um Fenster zu schlieÃŸen
 		exitButton = new JButton("Exit");
 		exitButton.setLocation(350, 330);
 		exitButton.setSize(70, 50);
