@@ -43,22 +43,7 @@ public class Angebot extends JFrame {
 	private JTextField tfDatum;
 	private JPanel contentPane;
 	private JTextField tfSum;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Angebot frame = new Angebot();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	
 
 	/**
 	 * Create the frame.
@@ -135,7 +120,7 @@ public class Angebot extends JFrame {
 		contentPane.add(tfMaterialPreis, "cell 1 4,growx,aligny center");
 		tfMaterialPreis.setColumns(10);
 		
-		//Action - Listener Material hinzufügen
+		//Action - Listener Material hinzufÃ¼gen
 		JButton btMaterialHinzufuegen = new JButton("Material hinzuf\u00FCgen");
 		btMaterialHinzufuegen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -148,7 +133,7 @@ public class Angebot extends JFrame {
 				 tfMaterialPreis.setText("");
 			}
 		});
-		// Action - Listener Arbeit hinzufügen
+		// Action - Listener Arbeit hinzufÃ¼gen
 		JButton btArbeitHinzufgen = new JButton("Arbeit hinzuf\u00FCgen");
 		btArbeitHinzufgen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
