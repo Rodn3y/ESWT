@@ -1,5 +1,11 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -8,41 +14,43 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-//GUI fÃ¼r Username- und Passwortabfrage
+//GUI für Username- und Passwortabfrage
 public class GuiLogin extends JFrame {
 	
-
-	//Hinterlegtes Passwort/Username fÃ¼r Loginabfrage
+	
+	// Hinterlegtes Passwort/Username für Loginabfrage
 	public String UserPassword = ("Test"); // momentan Platzhalter...soll auf Passwort Datenbank zugreifen?!
 	public String UserUsername = ("Test"); // momentan Platzhalter...soll auf Username Datenbank zugreifen?!
 
-	//Textfeld und Passwortfeld
+	// Textfeld und Passwortfeld
 	private JTextField username;
 	private JPasswordField password;
 
-	//Schrift "Username" und "Passwort"
+	// Schrift "Username" und "Passwort"
 	private JLabel usernameLabel;
 	private JLabel passwordLabel;
 
-	//KnÃ¶pfe fÃ¼r Login und Exit
+	// Knöpfe für Login und Exit
 	private JButton loginButton;
 	private JButton exitButton;
 	
+	//Knopf für Registrieren
+	private JButton regButton;
 	
 
 	public GuiLogin() {
-		
-		//Settings des GUIs
+
+		// Settings des GUIs
 		this.setTitle("titel");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setSize(500, 500);
 		this.setLayout(null);
 		this.setTitle("Login");
 
-		//Inizialisierung aller Komponenten
+		// Inizialisierung aller Komponenten
 		this.initComponents();
-		
-		//hinzufÃ¼gen der Komponenten
+
+		// hinzufügen der Komponenten
 		add(username);
 		add(usernameLabel);
 
@@ -51,49 +59,67 @@ public class GuiLogin extends JFrame {
 
 		add(loginButton);
 		add(exitButton);
+		add(regButton);
 
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 
 	}
-	
-    //Methode um Komponenten zu inizialisieren 
+
+	// Methode um Komponenten zu inizialisieren
 	private void initComponents() {
-		
-		//Textfeld fÃ¼r die Username-eingabe
+
+		// Textfeld für die Username-eingabe
 		username = new JTextField();
 		username.setLocation(200, 100);
 		username.setSize(200, 30);
-        
-		//Label um Schrift "Username: " anzuzeigen
+
+		// Label um Schrift "Username: " anzuzeigen
 		usernameLabel = new JLabel("Username:");
 		usernameLabel.setLocation(100, 100);
 		usernameLabel.setSize(100, 30);
-		
-		
-        //Passwortfeld fÃ¼r die Passwort-eingabe
+
+		// Passwortfeld für die Passwort-eingabe
 		password = new JPasswordField();
 		password.setLocation(200, 200);
 		password.setSize(200, 30);
-		
-        //Label um Schrift "Passwort: " anzuzeigen
+
+		// Label um Schrift "Passwort: " anzuzeigen
 		passwordLabel = new JLabel("Passwort:");
 		passwordLabel.setLocation(100, 200);
 		passwordLabel.setSize(100, 30);
-		
-        //Button um "einzuloggen"
+
+		// Button um "einzuloggen"
 		loginButton = new JButton("login");
 		loginButton.setLocation(175, 330);
 		loginButton.setSize(150, 50);
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				
-                //Passwort und Username Abfrage
-				if (password.getText().contains(UserPassword) && username.getText().contains(UserUsername)) {
+
+				// Passwort und Username Abfrage
+
+				ArrayList<String> list = new ArrayList<String>();
+
+				BufferedReader reader = null;
+				try {
+					reader = new BufferedReader(new FileReader("src/folder/data.txt"));
+				} catch (FileNotFoundException e2) {
+					e2.printStackTrace();
+				}
+
+				String s;
+				try {
+					while ((s = reader.readLine()) != null) {
+						list.add(s);
+					}
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+
+				if (list.contains(password.getText()) && list.contains(username.getText())) {
 					password.setText(null);
 					username.setText(null);
-			        JFrame Frame = new JFrame();
+					JFrame Frame = new JFrame();
 					JOptionPane.showMessageDialog(Frame, "Anmeldung erfolgreich.", "Login",
 							JOptionPane.INFORMATION_MESSAGE);
 					Angebot angebot = new Angebot();
@@ -107,8 +133,8 @@ public class GuiLogin extends JFrame {
 				}
 			}
 		});
-		
-        //Button um Fenster zu schlieÃŸen
+
+		// Button um Fenster zu schließen
 		exitButton = new JButton("Exit");
 		exitButton.setLocation(350, 330);
 		exitButton.setSize(70, 50);
@@ -117,5 +143,35 @@ public class GuiLogin extends JFrame {
 				System.exit(getDefaultCloseOperation());
 			}
 		});
+		
+		regButton = new JButton("registrieren");
+		regButton.setLocation(250,400);
+		regButton.setSize(120,35);
+		regButton.addActionListener(new ActionListener () {
+			public void actionPerformed(ActionEvent e) {
+				UserRegistration registrierung = new UserRegistration();
+			}
+		});
+	}
+	public void checkData() {
+		
+		File folder = new File("src/folder");
+		File data = new File("src/folder/data.txt");
+		
+		if(folder.exists()) {
+			System.out.println("datafolder found");
+		}else {
+			folder.mkdir();
+		}
+		
+		if (data.exists()) {
+			System.out.println("data found");
+		}else {
+			try {
+				data.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }
