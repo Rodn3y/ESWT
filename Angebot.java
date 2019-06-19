@@ -1,3 +1,4 @@
+package com.angebot;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -21,8 +22,9 @@ import java.util.Date;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.table.TableModel;
-import net.miginfocom.swing.MigLayout;
-import javax.swing.JTextArea;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 
 public class Angebot extends JFrame {
 	private JTable tMaterial;
@@ -42,7 +44,22 @@ public class Angebot extends JFrame {
 	private JTextField tfDatum;
 	private JPanel contentPane;
 	private JTextField tfSum;
-	
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Angebot frame = new Angebot();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 
 	/**
 	 * Create the frame.
@@ -66,73 +83,143 @@ public class Angebot extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setVisible(true);
-		contentPane.setLayout(new MigLayout("", "[102px][291px,grow][70px][281px]", "[20px][295px][][20px][20px][23px][23px][grow][]"));
+		GridBagLayout gbl_contentPane = new GridBagLayout();
+		gbl_contentPane.columnWidths = new int[]{102, 352, 117, 281, 0};
+		gbl_contentPane.rowHeights = new int[]{20, 295, 33, 20, 20, 23, 23, 20, 23, 0};
+		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		contentPane.setLayout(gbl_contentPane);
+		
+		// Action Listener Material entfernen
+		JButton btMaterialEntfernen = new JButton("Material entfernen");
+		btMaterialEntfernen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				listMaterialName.remove(listMaterialName.size()-1);
+				modelMaterial.removeRow(modelMaterial.getRowCount()-1);
+			}
+		});
 		
 		JLabel lblAngebotErstellen = new JLabel("Angebot erstellen");
-		contentPane.add(lblAngebotErstellen, "cell 0 0,alignx center,aligny center");
+		GridBagConstraints gbc_lblAngebotErstellen = new GridBagConstraints();
+		gbc_lblAngebotErstellen.insets = new Insets(0, 0, 5, 5);
+		gbc_lblAngebotErstellen.gridx = 0;
+		gbc_lblAngebotErstellen.gridy = 0;
+		contentPane.add(lblAngebotErstellen, gbc_lblAngebotErstellen);
 		
 		JLabel lbDatum = new JLabel("Datum");
-		contentPane.add(lbDatum, "cell 2 0,alignx right,aligny center");
+		GridBagConstraints gbc_lbDatum = new GridBagConstraints();
+		gbc_lbDatum.anchor = GridBagConstraints.EAST;
+		gbc_lbDatum.insets = new Insets(0, 0, 5, 5);
+		gbc_lbDatum.gridx = 2;
+		gbc_lbDatum.gridy = 0;
+		contentPane.add(lbDatum, gbc_lbDatum);
 		
 		tfDatum = new JTextField();
 		tfDatum.setEditable(false);
 		tfDatum.setText(" " + dateFormat.format(date));
-		contentPane.add(tfDatum, "cell 3 0,growx,aligny center");
+		GridBagConstraints gbc_tfDatum = new GridBagConstraints();
+		gbc_tfDatum.fill = GridBagConstraints.HORIZONTAL;
+		gbc_tfDatum.insets = new Insets(0, 0, 5, 5);
+		gbc_tfDatum.gridx = 3;
+		gbc_tfDatum.gridy = 0;
+		contentPane.add(tfDatum, gbc_tfDatum);
 		tfDatum.setColumns(10);
 		
 		JScrollPane scrollPane = new JScrollPane(tMaterial);
 		scrollPane.setVisible(true);
-		contentPane.add(scrollPane, "cell 1 1,alignx right,growy");
+		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
+		gbc_scrollPane.gridx = 1;
+		gbc_scrollPane.gridy = 1;
+		contentPane.add(scrollPane, gbc_scrollPane);
 		
 		tMaterial = new JTable(modelMaterial);
 		scrollPane.setViewportView(tMaterial);
-		modelMaterial.addColumn("Materialbezeichnung");
-		modelMaterial.addColumn("Preis");
 		
 		JScrollPane scrollPane_1 = new JScrollPane(tArbeit);
 		scrollPane_1.setVisible(true);
-		contentPane.add(scrollPane_1, "cell 3 1,grow");
+		GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
+		gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane_1.insets = new Insets(0, 0, 5, 0);
+		gbc_scrollPane_1.gridx = 3;
+		gbc_scrollPane_1.gridy = 1;
+		contentPane.add(scrollPane_1, gbc_scrollPane_1);
 		
 		tArbeit = new JTable(modelArbeit);
 		scrollPane_1.setViewportView(tArbeit);
-		modelArbeit.addColumn("Arbeit");
-		modelArbeit.addColumn("Arbeitskosten");
 		
 		JLabel lbMaterialHinzufuegen = new JLabel("Materialbezeichnung:");
-		contentPane.add(lbMaterialHinzufuegen, "cell 0 3,alignx right,aligny center");
+		GridBagConstraints gbc_lbMaterialHinzufuegen = new GridBagConstraints();
+		gbc_lbMaterialHinzufuegen.anchor = GridBagConstraints.EAST;
+		gbc_lbMaterialHinzufuegen.insets = new Insets(0, 0, 5, 5);
+		gbc_lbMaterialHinzufuegen.gridx = 0;
+		gbc_lbMaterialHinzufuegen.gridy = 3;
+		contentPane.add(lbMaterialHinzufuegen, gbc_lbMaterialHinzufuegen);
 		
 		tfMaterialName = new JTextField();
-		contentPane.add(tfMaterialName, "cell 1 3,growx,aligny center");
+		GridBagConstraints gbc_tfMaterialName = new GridBagConstraints();
+		gbc_tfMaterialName.fill = GridBagConstraints.HORIZONTAL;
+		gbc_tfMaterialName.insets = new Insets(0, 0, 5, 5);
+		gbc_tfMaterialName.gridx = 1;
+		gbc_tfMaterialName.gridy = 3;
+		contentPane.add(tfMaterialName, gbc_tfMaterialName);
 		tfMaterialName.setColumns(10);
 		
 		JLabel lbArbeit = new JLabel("Arbeit:");
-		contentPane.add(lbArbeit, "cell 2 3,alignx right,aligny center");
+		GridBagConstraints gbc_lbArbeit = new GridBagConstraints();
+		gbc_lbArbeit.anchor = GridBagConstraints.EAST;
+		gbc_lbArbeit.insets = new Insets(0, 0, 5, 5);
+		gbc_lbArbeit.gridx = 2;
+		gbc_lbArbeit.gridy = 3;
+		contentPane.add(lbArbeit, gbc_lbArbeit);
 		
 		tfArbeit = new JTextField();
-		contentPane.add(tfArbeit, "cell 3 3,growx,aligny center");
+		GridBagConstraints gbc_tfArbeit = new GridBagConstraints();
+		gbc_tfArbeit.fill = GridBagConstraints.HORIZONTAL;
+		gbc_tfArbeit.insets = new Insets(0, 0, 5, 0);
+		gbc_tfArbeit.gridx = 3;
+		gbc_tfArbeit.gridy = 3;
+		contentPane.add(tfArbeit, gbc_tfArbeit);
 		tfArbeit.setColumns(10);
 		
 		JLabel lbMaterialpreis = new JLabel("Materialpreis:");
-		contentPane.add(lbMaterialpreis, "cell 0 4,alignx right,aligny center");
+		GridBagConstraints gbc_lbMaterialpreis = new GridBagConstraints();
+		gbc_lbMaterialpreis.anchor = GridBagConstraints.EAST;
+		gbc_lbMaterialpreis.insets = new Insets(0, 0, 5, 5);
+		gbc_lbMaterialpreis.gridx = 0;
+		gbc_lbMaterialpreis.gridy = 4;
+		contentPane.add(lbMaterialpreis, gbc_lbMaterialpreis);
 		
 		tfMaterialPreis = new JTextField();
-		contentPane.add(tfMaterialPreis, "cell 1 4,growx,aligny center");
+		GridBagConstraints gbc_tfMaterialPreis = new GridBagConstraints();
+		gbc_tfMaterialPreis.fill = GridBagConstraints.HORIZONTAL;
+		gbc_tfMaterialPreis.insets = new Insets(0, 0, 5, 5);
+		gbc_tfMaterialPreis.gridx = 1;
+		gbc_tfMaterialPreis.gridy = 4;
+		contentPane.add(tfMaterialPreis, gbc_tfMaterialPreis);
 		tfMaterialPreis.setColumns(10);
 		
-		//Action - Listener Material hinzufÃ¼gen
-		JButton btMaterialHinzufuegen = new JButton("Material hinzuf\u00FCgen");
-		btMaterialHinzufuegen.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				String materialBenennung = tfMaterialName.getText();
-				String materialKosten = tfMaterialPreis.getText();
-				 listMaterialName.add(materialBenennung);
-				 listMaterialKosten.add(Double.parseDouble(materialKosten));
-				 modelMaterial.insertRow(modelMaterial.getRowCount(), new Object[]{ materialBenennung,materialKosten} );
-				 tfMaterialName.setText("");
-				 tfMaterialPreis.setText("");
-			}
-		});
-		// Action - Listener Arbeit hinzufÃ¼gen
+
+		
+		
+		JLabel lbArbeitskosten = new JLabel("Arbeitskosten:");
+		GridBagConstraints gbc_lbArbeitskosten = new GridBagConstraints();
+		gbc_lbArbeitskosten.anchor = GridBagConstraints.EAST;
+		gbc_lbArbeitskosten.insets = new Insets(0, 0, 5, 5);
+		gbc_lbArbeitskosten.gridx = 2;
+		gbc_lbArbeitskosten.gridy = 4;
+		contentPane.add(lbArbeitskosten, gbc_lbArbeitskosten);
+		
+		tfArbeitsKosten = new JTextField();
+		GridBagConstraints gbc_tfArbeitsKosten = new GridBagConstraints();
+		gbc_tfArbeitsKosten.fill = GridBagConstraints.HORIZONTAL;
+		gbc_tfArbeitsKosten.insets = new Insets(0, 0, 5, 0);
+		gbc_tfArbeitsKosten.gridx = 3;
+		gbc_tfArbeitsKosten.gridy = 4;
+		contentPane.add(tfArbeitsKosten, gbc_tfArbeitsKosten);
+		tfArbeitsKosten.setColumns(10);
+		// Action - Listener Arbeit hinzufügen
 		JButton btArbeitHinzufgen = new JButton("Arbeit hinzuf\u00FCgen");
 		btArbeitHinzufgen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -146,29 +233,36 @@ public class Angebot extends JFrame {
 			}
 		});
 		
-
-		
-		
-		JLabel lbArbeitskosten = new JLabel("Arbeitskosten:");
-		contentPane.add(lbArbeitskosten, "cell 2 4,alignx right,aligny center");
-		
-		tfArbeitsKosten = new JTextField();
-		contentPane.add(tfArbeitsKosten, "cell 3 4,growx,aligny center");
-		tfArbeitsKosten.setColumns(10);
-		contentPane.add(btMaterialHinzufuegen, "cell 1 5,alignx center,aligny center");
-		
-		
-		contentPane.add(btArbeitHinzufgen, "cell 3 5,alignx center,aligny center");
-		
-		// Action Listener Material entfernen
-		JButton btMaterialEntfernen = new JButton("Material entfernen");
-		btMaterialEntfernen.addActionListener(new ActionListener() {
+		//Action - Listener Material hinzufügen
+		JButton btMaterialHinzufuegen = new JButton("Material hinzuf\u00FCgen");
+		btMaterialHinzufuegen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				listMaterialName.remove(listMaterialName.size()-1);
-				modelMaterial.removeRow(modelMaterial.getRowCount()-1);
+				String materialBenennung = tfMaterialName.getText();
+				String materialKosten = tfMaterialPreis.getText();
+				 listMaterialName.add(materialBenennung);
+				 listMaterialKosten.add(Double.parseDouble(materialKosten));
+				 modelMaterial.insertRow(modelMaterial.getRowCount(), new Object[]{ materialBenennung,materialKosten} );
+				 tfMaterialName.setText("");
+				 tfMaterialPreis.setText("");
 			}
 		});
-		contentPane.add(btMaterialEntfernen, "cell 1 6,alignx center,aligny center");
+		GridBagConstraints gbc_btMaterialHinzufuegen = new GridBagConstraints();
+		gbc_btMaterialHinzufuegen.insets = new Insets(0, 0, 5, 5);
+		gbc_btMaterialHinzufuegen.gridx = 1;
+		gbc_btMaterialHinzufuegen.gridy = 5;
+		contentPane.add(btMaterialHinzufuegen, gbc_btMaterialHinzufuegen);
+		
+		
+		GridBagConstraints gbc_btArbeitHinzufgen = new GridBagConstraints();
+		gbc_btArbeitHinzufgen.insets = new Insets(0, 0, 5, 0);
+		gbc_btArbeitHinzufgen.gridx = 3;
+		gbc_btArbeitHinzufgen.gridy = 5;
+		contentPane.add(btArbeitHinzufgen, gbc_btArbeitHinzufgen);
+		GridBagConstraints gbc_btMaterialEntfernen = new GridBagConstraints();
+		gbc_btMaterialEntfernen.insets = new Insets(0, 0, 5, 5);
+		gbc_btMaterialEntfernen.gridx = 1;
+		gbc_btMaterialEntfernen.gridy = 6;
+		contentPane.add(btMaterialEntfernen, gbc_btMaterialEntfernen);
 		
 		// Action Listener Arbeit entfernen
 		JButton btArbeitEntfernen = new JButton("Arbeit entfernen");
@@ -186,12 +280,18 @@ public class Angebot extends JFrame {
 				
 			}
 		});
-		contentPane.add(btGesamt, "cell 2 6,growx");
-		contentPane.add(btArbeitEntfernen, "cell 3 6,alignx center,aligny center");
-		
-		tfSum = new JTextField();
-		contentPane.add(tfSum, "cell 2 7,growx");
-		tfSum.setColumns(10);
+		GridBagConstraints gbc_btGesamt = new GridBagConstraints();
+		gbc_btGesamt.anchor = GridBagConstraints.NORTH;
+		gbc_btGesamt.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btGesamt.insets = new Insets(0, 0, 5, 5);
+		gbc_btGesamt.gridx = 2;
+		gbc_btGesamt.gridy = 6;
+		contentPane.add(btGesamt, gbc_btGesamt);
+		GridBagConstraints gbc_btArbeitEntfernen = new GridBagConstraints();
+		gbc_btArbeitEntfernen.insets = new Insets(0, 0, 5, 0);
+		gbc_btArbeitEntfernen.gridx = 3;
+		gbc_btArbeitEntfernen.gridy = 6;
+		contentPane.add(btArbeitEntfernen, gbc_btArbeitEntfernen);
 		
 		JButton btAngebotErstellen = new JButton("Angebot erstellen");
 		btAngebotErstellen.addActionListener(new ActionListener() {
@@ -233,7 +333,26 @@ public class Angebot extends JFrame {
 				}
 			}
 		});
-		contentPane.add(btAngebotErstellen, "cell 2 8");
+		
+		tfSum = new JTextField();
+		GridBagConstraints gbc_tfSum = new GridBagConstraints();
+		gbc_tfSum.anchor = GridBagConstraints.NORTH;
+		gbc_tfSum.fill = GridBagConstraints.HORIZONTAL;
+		gbc_tfSum.insets = new Insets(0, 0, 5, 5);
+		gbc_tfSum.gridx = 2;
+		gbc_tfSum.gridy = 7;
+		contentPane.add(tfSum, gbc_tfSum);
+		tfSum.setColumns(10);
+		GridBagConstraints gbc_btAngebotErstellen = new GridBagConstraints();
+		gbc_btAngebotErstellen.anchor = GridBagConstraints.NORTHWEST;
+		gbc_btAngebotErstellen.insets = new Insets(0, 0, 0, 5);
+		gbc_btAngebotErstellen.gridx = 2;
+		gbc_btAngebotErstellen.gridy = 8;
+		contentPane.add(btAngebotErstellen, gbc_btAngebotErstellen);
+		modelMaterial.addColumn("Materialbezeichnung");
+		modelMaterial.addColumn("Preis");
+		modelArbeit.addColumn("Arbeit");
+		modelArbeit.addColumn("Arbeitskosten");
 	}
 	
 	public double getSumMaterial() {
