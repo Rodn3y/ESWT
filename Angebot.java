@@ -1,4 +1,3 @@
-package com.angebot;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -26,6 +25,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
+
 public class Angebot extends JFrame {
 	private JTable tMaterial;
 	private JTable tArbeit;
@@ -33,6 +33,7 @@ public class Angebot extends JFrame {
 	private JTextField tfMaterialPreis;
 	private JTextField tfArbeit;
 	private JTextField tfArbeitsKosten;
+	private JButton kundeanlegen;
 	
 	DefaultTableModel modelMaterial ;
 	DefaultTableModel modelArbeit;
@@ -45,21 +46,6 @@ public class Angebot extends JFrame {
 	private JPanel contentPane;
 	private JTextField tfSum;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Angebot frame = new Angebot();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
@@ -297,7 +283,8 @@ public class Angebot extends JFrame {
 		btAngebotErstellen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					File file = new File("C:\\Users\\Leo\\Documents\\Angebot.txt");
+					File file = new File("src/folder/Angebot.txt"
+							+ "");
 					if(!file.exists()) {
 						file.createNewFile();
 					}
@@ -353,7 +340,17 @@ public class Angebot extends JFrame {
 		modelMaterial.addColumn("Preis");
 		modelArbeit.addColumn("Arbeit");
 		modelArbeit.addColumn("Arbeitskosten");
+		
+		JButton kundeanlegen = new JButton("Kundenverwalten");
+		kundeanlegen.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				Kunde kunde = new Kunde();
+			}
+			
+});
 	}
+	
 	
 	public double getSumMaterial() {
 		int rowsCount = tMaterial.getRowCount();
