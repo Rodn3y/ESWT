@@ -285,63 +285,7 @@ public class Angebot extends JFrame {
 		JButton btAngebotErstellen = new JButton("Angebot erstellen");
 		btAngebotErstellen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				File f = new File("src/folder/test.html");
-				//write HtML file
-				try {
-					BufferedWriter bw = new BufferedWriter(new FileWriter(f));
-					bw.write("<h1 style=\"color: #5e9ca0; text-align: center;\"><span style=\"color: #000000;\">Angebot</span></h1>\r\n" +
-							"<p>"+ Kunde.vornameTextfeld.getText() + " "+ Kunde.nachnameTextfeld.getText() + 
-							"<br />" + Kunde.straﬂeFeld.getText()+" " + Kunde.hausnummerFeld.getText() +
-							"<br />" + Kunde.postleitzahlFeld.getText()+" " + Kunde.stadtFeld.getText() + 
-							"<br />" + 
-							"</p>\r\n" +  
-							"<p><strong>&nbsp;</strong></p>");
-					
-					bw.write("<table style=\"width: 522px; height: 36px;\" border=\"1\" cellspacing=\"2\" cellpadding=\"5\">\r\n" + 
-							"<tbody>\r\n" + 
-							"<tr style=\"height: 22px;\">\r\n" + 
-							"<td style=\"width: 113px; height: 22px;\">Pos</td>\r\n" + 
-							"<td style=\"width: 216px; height: 22px;\">Materialbezeichnung</td>\r\n" + 
-							"<td style=\"width: 147px; height: 22px; text-align: right;\">Kosten</td>\r\n" + 
-							"</tr>\r\n" );
-					for(int i = 0; i < tMaterial.getRowCount(); i++) {
-							bw.write("<tr style=\"height: 22px;\">\r\n" + 
-									"<td style=\"width: 113px; height: 22px;\">" + (i+1) + "</td>\r\n" + 
-									"<td style=\"width: 215.733px; height: 22px;\">" + tMaterial.getModel().getValueAt(i, 0)  +"</td>\r\n" + 
-									"<td style=\"width: 146.267px; height: 22px; text-align: right;\">" + tMaterial.getModel().getValueAt(i, 1) + "</td>\r\n" + 
-									"</tr>");
-						}
-					bw.write("</tbody>\r\n" + 
-							"</table>\r\n" + 
-							"<p>&nbsp;</p>\r\n" + 
-							"<p>&nbsp;</p>");
-					
-					bw.write("<table style=\"width: 522px; height: 36px;\" border=\"1\" cellspacing=\"2\" cellpadding=\"5\">\r\n" + 
-							"<tbody>\r\n" + 
-							"<tr style=\"height: 22px;\">\r\n" + 
-							"<td style=\"width: 113px; height: 22px;\">Pos</td>\r\n" + 
-							"<td style=\"width: 216px; height: 22px;\">Arbeit</td>\r\n" + 
-							"<td style=\"width: 147px; height: 22px; text-align: right;\">Kosten</td>\r\n" + 
-							"</tr>\r\n" );
-					for(int i = 0; i < tArbeit.getRowCount(); i++) {
-						bw.write("<tr style=\"height: 22px;\">\r\n" + 
-								"<td style=\"width: 113px; height: 22px;\">" + (i+1) + "</td>\r\n" + 
-								"<td style=\"width: 215.733px; height: 22px;\">" + tArbeit.getModel().getValueAt(i, 0)  +"</td>\r\n" + 
-								"<td style=\"width: 146.267px; height: 22px; text-align: right;\">" + tArbeit.getModel().getValueAt(i, 1) + "</td>\r\n" + 
-								"</tr>");
-					}
-					bw.write("</tbody>\r\n" + 
-							"</table>\r\n" + 
-							"<p style=\"text-align: left;\">&nbsp;</p>\r\n" + 
-							"<p style=\"text-align: left;\">&nbsp;Gesamtkosten:"+ tfSum.getText() +" EUR</p>\r\n" + 
-							"<p>&nbsp;</p>");
-					bw.close();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				
+			writeAngebot();
 			}
 			});
 			
@@ -400,4 +344,64 @@ public class Angebot extends JFrame {
 	public void setTMaterialModel(TableModel model) {
 		tMaterial.setModel(model);
 	}
+	
+	public void writeAngebot() {
+		File f = new File("src/folder/test.html");
+		//write HtML file
+	
+		try {
+			BufferedWriter bw = new BufferedWriter(new FileWriter(f));
+			bw.write("<h1 style=\"color: #5e9ca0; text-align: center;\"><span style=\"color: #000000;\">Angebot</span></h1>\r\n" +
+					"<p>"+ Kunde.vornameTextfeld.getText() + " "+ Kunde.nachnameTextfeld.getText() + 
+					"<br />" + Kunde.straﬂeFeld.getText()+" " + Kunde.hausnummerFeld.getText() +
+					"<br />" + Kunde.postleitzahlFeld.getText()+" " + Kunde.stadtFeld.getText() + 
+					"<br />" + 
+					"</p>\r\n" +  
+					"<p><strong>&nbsp;</strong></p>");
+			
+			bw.write("<table style=\"width: 522px; height: 36px;\" border=\"1\" cellspacing=\"2\" cellpadding=\"5\">\r\n" + 
+					"<tbody>\r\n" + 
+					"<tr style=\"height: 22px;\">\r\n" + 
+					"<td style=\"width: 113px; height: 22px;\">Pos</td>\r\n" + 
+					"<td style=\"width: 216px; height: 22px;\">Materialbezeichnung</td>\r\n" + 
+					"<td style=\"width: 147px; height: 22px; text-align: right;\">Kosten</td>\r\n" + 
+					"</tr>\r\n" );
+			for(int i = 0; i < tMaterial.getRowCount(); i++) {
+					bw.write("<tr style=\"height: 22px;\">\r\n" + 
+							"<td style=\"width: 113px; height: 22px;\">" + (i+1) + "</td>\r\n" + 
+							"<td style=\"width: 215.733px; height: 22px;\">" + tMaterial.getModel().getValueAt(i, 0)  +"</td>\r\n" + 
+							"<td style=\"width: 146.267px; height: 22px; text-align: right;\">" + tMaterial.getModel().getValueAt(i, 1) + "</td>\r\n" + 
+							"</tr>");
+				}
+			bw.write("</tbody>\r\n" + 
+					"</table>\r\n" + 
+					"<p>&nbsp;</p>\r\n" + 
+					"<p>&nbsp;</p>");
+			
+			bw.write("<table style=\"width: 522px; height: 36px;\" border=\"1\" cellspacing=\"2\" cellpadding=\"5\">\r\n" + 
+					"<tbody>\r\n" + 
+					"<tr style=\"height: 22px;\">\r\n" + 
+					"<td style=\"width: 113px; height: 22px;\">Pos</td>\r\n" + 
+					"<td style=\"width: 216px; height: 22px;\">Arbeit</td>\r\n" + 
+					"<td style=\"width: 147px; height: 22px; text-align: right;\">Kosten</td>\r\n" + 
+					"</tr>\r\n" );
+			for(int i = 0; i < tArbeit.getRowCount(); i++) {
+				bw.write("<tr style=\"height: 22px;\">\r\n" + 
+						"<td style=\"width: 113px; height: 22px;\">" + (i+1) + "</td>\r\n" + 
+						"<td style=\"width: 215.733px; height: 22px;\">" + tArbeit.getModel().getValueAt(i, 0)  +"</td>\r\n" + 
+						"<td style=\"width: 146.267px; height: 22px; text-align: right;\">" + tArbeit.getModel().getValueAt(i, 1) + "</td>\r\n" + 
+						"</tr>");
+			}
+			bw.write("</tbody>\r\n" + 
+					"</table>\r\n" + 
+					"<p style=\"text-align: left;\">&nbsp;</p>\r\n" + 
+					"<p style=\"text-align: left;\">&nbsp;Gesamtkosten:"+ tfSum.getText() +" EUR</p>\r\n" + 
+					"<p>&nbsp;</p>");
+			bw.close();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		}
+	
 }
