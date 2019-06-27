@@ -1,0 +1,12 @@
+MaterialKosten
+
+Materialbezeichnung:		Preis:
+
+
+
+Arbeitskosten
+
+Arbeit:				Preis:
+
+
+Gesamtkosten: 			 EUR

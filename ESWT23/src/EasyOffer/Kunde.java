@@ -52,16 +52,16 @@ public class Kunde extends JFrame {
 		this.Telnummer = Telnummer;
 	}
 
-	private JTextField vornameTextfeld;
-	private JTextField nachnameTextfeld;
-	private JTextField straﬂeFeld;
-	private JTextField stadtFeld;
-	private JTextField jahrFeld;
-	private JComboBox<String> monatFeld;
-	private JTextField tagFeld;
-	private JTextField hausnummerFeld;
-	private JTextField telnummerFeld;
-	private JTextField postleitzahlFeld;
+	public static JTextField vornameTextfeld;
+	public static JTextField nachnameTextfeld;
+	public static JTextField straﬂeFeld;
+	public static JTextField stadtFeld;
+	public static JTextField jahrFeld;
+	public static JComboBox<String> monatFeld;
+	public static JTextField tagFeld;
+	public static JTextField hausnummerFeld;
+	public static JTextField telnummerFeld;
+	public static JTextField postleitzahlFeld;
 
 	private JRadioButton anredeChoice;
 	private JRadioButton anredeChoiceFrau;

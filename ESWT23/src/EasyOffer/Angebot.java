@@ -15,6 +15,7 @@ import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -284,44 +285,66 @@ public class Angebot extends JFrame {
 		JButton btAngebotErstellen = new JButton("Angebot erstellen");
 		btAngebotErstellen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				File f = new File("src/folder/test.html");
+				//write HtML file
 				try {
-					File file = new File("src/folder/Angebot.txt"+ "");
-					if(!file.exists()) {
-						file.createNewFile();
-					}
+					BufferedWriter bw = new BufferedWriter(new FileWriter(f));
+					bw.write("<h1 style=\"color: #5e9ca0; text-align: center;\"><span style=\"color: #000000;\">Angebot</span></h1>\r\n" +
+							"<p>"+ Kunde.vornameTextfeld.getText() + " "+ Kunde.nachnameTextfeld.getText() + 
+							"<br />" + Kunde.straﬂeFeld.getText()+" " + Kunde.hausnummerFeld.getText() +
+							"<br />" + Kunde.postleitzahlFeld.getText()+" " + Kunde.stadtFeld.getText() + 
+							"<br />" + 
+							"</p>\r\n" +  
+							"<p><strong>&nbsp;</strong></p>");
 					
-					FileWriter fw = new FileWriter(file.getAbsoluteFile());
-					BufferedWriter bw = new BufferedWriter(fw);
-					
-					bw.write("MaterialKosten" + "\n\n");
-					bw.write("Materialbezeichnung:\t\tPreis:\n");
-					
+					bw.write("<table style=\"width: 522px; height: 36px;\" border=\"1\" cellspacing=\"2\" cellpadding=\"5\">\r\n" + 
+							"<tbody>\r\n" + 
+							"<tr style=\"height: 22px;\">\r\n" + 
+							"<td style=\"width: 113px; height: 22px;\">Pos</td>\r\n" + 
+							"<td style=\"width: 216px; height: 22px;\">Materialbezeichnung</td>\r\n" + 
+							"<td style=\"width: 147px; height: 22px; text-align: right;\">Kosten</td>\r\n" + 
+							"</tr>\r\n" );
 					for(int i = 0; i < tMaterial.getRowCount(); i++) {
-						for(int j = 0; j < tMaterial.getColumnCount();j++) {
-							bw.write((String)tMaterial.getModel().getValueAt(i, j)+ "\t\t\t\t");
-						}	
-						bw.write("\n");
-					}
-					bw.write("\n\n\n");
-					bw.write("Arbeitskosten" + "\n\n");
-					bw.write("Arbeit:\t\t\t\tPreis:\n");
-					
-					for(int i = 0; i < tArbeit.getRowCount(); i++) {
-						for(int j = 0; j < tArbeit.getColumnCount(); j++) {
-							bw.write((String)tArbeit.getModel().getValueAt(i, j)+ "\t\t\t\t");
+							bw.write("<tr style=\"height: 22px;\">\r\n" + 
+									"<td style=\"width: 113px; height: 22px;\">" + (i+1) + "</td>\r\n" + 
+									"<td style=\"width: 215.733px; height: 22px;\">" + tMaterial.getModel().getValueAt(i, 0)  +"</td>\r\n" + 
+									"<td style=\"width: 146.267px; height: 22px; text-align: right;\">" + tMaterial.getModel().getValueAt(i, 1) + "</td>\r\n" + 
+									"</tr>");
 						}
-						bw.write("\n");
-					}
+					bw.write("</tbody>\r\n" + 
+							"</table>\r\n" + 
+							"<p>&nbsp;</p>\r\n" + 
+							"<p>&nbsp;</p>");
 					
-					bw.write("\n\nGesamtkosten: \t\t\t" + tfSum.getText() + " EUR");
+					bw.write("<table style=\"width: 522px; height: 36px;\" border=\"1\" cellspacing=\"2\" cellpadding=\"5\">\r\n" + 
+							"<tbody>\r\n" + 
+							"<tr style=\"height: 22px;\">\r\n" + 
+							"<td style=\"width: 113px; height: 22px;\">Pos</td>\r\n" + 
+							"<td style=\"width: 216px; height: 22px;\">Arbeit</td>\r\n" + 
+							"<td style=\"width: 147px; height: 22px; text-align: right;\">Kosten</td>\r\n" + 
+							"</tr>\r\n" );
+					for(int i = 0; i < tArbeit.getRowCount(); i++) {
+						bw.write("<tr style=\"height: 22px;\">\r\n" + 
+								"<td style=\"width: 113px; height: 22px;\">" + (i+1) + "</td>\r\n" + 
+								"<td style=\"width: 215.733px; height: 22px;\">" + tArbeit.getModel().getValueAt(i, 0)  +"</td>\r\n" + 
+								"<td style=\"width: 146.267px; height: 22px; text-align: right;\">" + tArbeit.getModel().getValueAt(i, 1) + "</td>\r\n" + 
+								"</tr>");
+					}
+					bw.write("</tbody>\r\n" + 
+							"</table>\r\n" + 
+							"<p style=\"text-align: left;\">&nbsp;</p>\r\n" + 
+							"<p style=\"text-align: left;\">&nbsp;Gesamtkosten:"+ tfSum.getText() +" EUR</p>\r\n" + 
+							"<p>&nbsp;</p>");
 					bw.close();
-					fw.close();
-				} catch(Exception ex) {
-					ex.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
+				
 			}
-		});
-		
+			});
+			
 		tfSum = new JTextField();
 		GridBagConstraints gbc_tfSum = new GridBagConstraints();
 		gbc_tfSum.anchor = GridBagConstraints.NORTH;
